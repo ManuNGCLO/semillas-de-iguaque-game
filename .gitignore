@@ -1,0 +1,8 @@
+# PNG originales sin optimizar, no referenciados por el juego (solo se usan los .jpg)
+assets/images/*.png
+
+# Vercel
+.vercel
+
+# Node
+node_modules
