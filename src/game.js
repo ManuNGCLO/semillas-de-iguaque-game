@@ -410,12 +410,14 @@ class Game {
             // Dificultad (usada por obstaculos)
             const difficulty = 1 + Math.floor(this.distance / 200) * 0.15;
 
+            // Aplicar efectos de power-ups al jugador ANTES de actualizarlo:
+            // ruanaBoost lo lee player.update() para la gravedad de planeo, asi
+            // que si se asigna despues queda un frame atrasado (efecto tardio al recogerla).
+            this.player.ruanaBoost = this.powerupSystem.hasEffect('glide');
+
             // Actualizar sistemas
             this.player.update(dt);
 
-            // Aplicar efectos de power-ups al jugador
-            // La Ruana: mejora el planeo mientras el jugador lo mantiene (no lo fuerza)
-            this.player.ruanaBoost = this.powerupSystem.hasEffect('glide');
             if (this.powerupSystem.hasEffect('invincible')) {
                 this.player.setInvincible(true);
             } else if (!this.powerupSystem.hasEffect('invincible') && this.player.isInvincible) {
@@ -479,6 +481,11 @@ class Game {
                         break;
                     case 'invincible':
                         this.player.setInvincible(true);
+                        break;
+                    case 'glide':
+                        // La Ruana solo reduce la caida mientras el jugador mantiene
+                        // presionado en el aire; sin este aviso pasa desapercibida.
+                        this.announce('La Ruana: salta y manten para planear');
                         break;
                 }
             }

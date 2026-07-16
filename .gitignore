@@ -6,3 +6,5 @@ assets/images/*.png
 
 # Node
 node_modules
+
+.vercel
